@@ -6,7 +6,7 @@ import dominio.repositorio.RepositorioPrestamo;
 
 public class Bibliotecario {
 
-	private static final String EL_LIBRO_NO_SE_ENCUENTRA_DISPONIBLE = "El libro no se encuentra disponible";
+	public static final String EL_LIBRO_NO_SE_ENCUENTRA_DISPONIBLE = "El libro no se encuentra disponible";
 	private static final String EL_ISBN_ES_PALINDROMO = "Los libros palíndromos solo se pueden utilizar en la biblioteca";
 	
 	
@@ -20,7 +20,7 @@ public class Bibliotecario {
 
 	}
 
-	public void prestar(String isbn, String quienPresta) {
+	public void prestar(String isbn) { //agregar como parametro , String quienPresta
 		if (esPrestado(isbn)) {
 			throw new PrestamoException(EL_LIBRO_NO_SE_ENCUENTRA_DISPONIBLE);
 		}	
