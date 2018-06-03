@@ -20,6 +20,7 @@ public class Bibliotecario {
 	}
 
 	public void prestar(String isbn, String nombreUsuario) { 
+		Date fechaEntrega = null;
 		if (esPrestado(isbn)) {
 			throw new PrestamoException(EL_LIBRO_NO_SE_ENCUENTRA_DISPONIBLE);
 		}	
@@ -27,8 +28,10 @@ public class Bibliotecario {
 			throw new PrestamoException(EL_ISBN_ES_PALINDROMO);
 		}
 		Libro libro = repositorioLibro.obtenerPorIsbn(isbn);
-		Prestamo prestamo = new Prestamo(new Date(), libro, new Date(), nombreUsuario);
-		
+		if (esMayorATreinta(isbn)){
+			fechaEntrega = new Date();
+		}
+		Prestamo prestamo = new Prestamo(new Date(), libro, fechaEntrega, nombreUsuario);		
 		this.repositorioPrestamo.agregar(prestamo);
 	}
 
@@ -47,5 +50,19 @@ public class Bibliotecario {
 		}
 		return false;
 	}
-
+	
+	public boolean esMayorATreinta (String isbn){
+		int suma = 0;
+		
+		for(int i = 0; i < isbn.length(); i++){
+			if(Character.isDigit(isbn.charAt(i))){
+				suma = suma + Character.getNumericValue(isbn.charAt(i));
+			}
+		}
+		if(suma > 30){
+			return true;
+		}
+		
+		return false;
+	}
 }

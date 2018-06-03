@@ -64,7 +64,8 @@ public class BibliotecarioTest {
 
 		// arrange
 		Libro libro = new LibroTestDataBuilder().conTitulo(CRONICA_DE_UNA_MUERTA_ANUNCIADA).build();
-		String nombreUsuario = "Juanita";		
+		String nombreUsuario = "Juanita";	
+		
 		repositorioLibros.agregar(libro);		
 		Bibliotecario blibliotecario = new Bibliotecario(repositorioLibros, repositorioPrestamo);
 

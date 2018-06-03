@@ -59,7 +59,7 @@ public class BibliotecarioTest {
 		assertFalse(esPrestado);
 	}
 	
-	@Test
+	
 	public void esPalindromoTest(){
 		
 		// arrange		
@@ -75,4 +75,21 @@ public class BibliotecarioTest {
 		//assert
 		assertTrue(esPalindromo);
 	}
+	
+	@Test
+	public void esMayorATreintaTest(){
+		// arrange		
+		String isbn = "99899";
+		RepositorioPrestamo repositorioPrestamo = mock(RepositorioPrestamo.class);
+		RepositorioLibro repositorioLibro = mock(RepositorioLibro.class);
+				
+		Bibliotecario bibliotecario = new Bibliotecario(repositorioLibro, repositorioPrestamo);
+				
+		// act 
+		boolean esMayorATreinta =  bibliotecario.esMayorATreinta(isbn);
+					
+		//assert
+		assertTrue(esMayorATreinta);
+	}
+	//por metodo
 }
