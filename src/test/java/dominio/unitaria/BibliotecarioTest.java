@@ -58,4 +58,21 @@ public class BibliotecarioTest {
 		//assert
 		assertFalse(esPrestado);
 	}
+	
+	@Test
+	public void esPalindromoTest(){
+		
+		// arrange		
+		String isbn = "99899";
+		RepositorioPrestamo repositorioPrestamo = mock(RepositorioPrestamo.class);
+		RepositorioLibro repositorioLibro = mock(RepositorioLibro.class);
+		
+		Bibliotecario bibliotecario = new Bibliotecario(repositorioLibro, repositorioPrestamo);
+		
+		// act 
+		boolean esPalindromo =  bibliotecario.esPalindromo(isbn);
+			
+		//assert
+		assertTrue(esPalindromo);
+	}
 }

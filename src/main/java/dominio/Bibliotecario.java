@@ -1,5 +1,6 @@
 package dominio;
 
+import java.util.Date;
 import dominio.excepcion.PrestamoException;
 import dominio.repositorio.RepositorioLibro;
 import dominio.repositorio.RepositorioPrestamo;
@@ -8,8 +9,6 @@ public class Bibliotecario {
 
 	public static final String EL_LIBRO_NO_SE_ENCUENTRA_DISPONIBLE = "El libro no se encuentra disponible";
 	private static final String EL_ISBN_ES_PALINDROMO = "Los libros palíndromos solo se pueden utilizar en la biblioteca";
-	
-	
 	
 	private RepositorioLibro repositorioLibro;
 	private RepositorioPrestamo repositorioPrestamo;
@@ -20,16 +19,17 @@ public class Bibliotecario {
 
 	}
 
-	public void prestar(String isbn) { //agregar como parametro , String quienPresta
+	public void prestar(String isbn, String nombreUsuario) { 
 		if (esPrestado(isbn)) {
 			throw new PrestamoException(EL_LIBRO_NO_SE_ENCUENTRA_DISPONIBLE);
 		}	
 		if (esPalindromo(isbn)) {
 			throw new PrestamoException(EL_ISBN_ES_PALINDROMO);
 		}
+		Libro libro = repositorioLibro.obtenerPorIsbn(isbn);
+		Prestamo prestamo = new Prestamo(new Date(), libro, new Date(), nombreUsuario);
 		
-		throw new UnsupportedOperationException("Método pendiente por implementar");
-
+		this.repositorioPrestamo.agregar(prestamo);
 	}
 
 	public boolean esPrestado(String isbn) {
@@ -38,7 +38,13 @@ public class Bibliotecario {
 	}
 	
 	public boolean esPalindromo(String isbn) {
-		
+		String temp = "";
+		for(int i = isbn.length()-1; i >= 0 ; i --){
+			temp = temp + isbn.charAt(i);
+		}
+		if (isbn.equals(temp)){
+			return true;
+		}
 		return false;
 	}
 
