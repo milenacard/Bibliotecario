@@ -5,6 +5,11 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.junit.Assert;
 import org.junit.Test;
 
 import dominio.Bibliotecario;
@@ -91,5 +96,33 @@ public class BibliotecarioTest {
 		//assert
 		assertTrue(esMayorATreinta);
 	}
-	//por metodo
+	@Test
+	public void calcularFechaEntrega() throws ParseException{
+		// arrange
+		String day = "26";
+		String month = "05";        
+        String year = "2017";
+        String inputDateStr = String.format("%s/%s/%s", day, month, year);
+        Date inputDate = new SimpleDateFormat("dd/MM/yyyy").parse(inputDateStr);
+    	Date fechaPrestamo = inputDate;
+    	
+    	String dayMax = "12";
+		String monthMax = "06";        
+        String yearMax = "2017";
+        String inputDateMaxStr = String.format("%s/%s/%s", dayMax, monthMax, yearMax);
+        Date fechaEntrega = new SimpleDateFormat("dd/MM/yyyy").parse(inputDateMaxStr);
+        	
+		RepositorioPrestamo repositorioPrestamo = mock(RepositorioPrestamo.class);
+		RepositorioLibro repositorioLibro = mock(RepositorioLibro.class);
+						
+		Bibliotecario bibliotecario = new Bibliotecario(repositorioLibro, repositorioPrestamo);
+						
+		// act 
+		Date calcularFechaEntrega =  bibliotecario.calcularFechaEntrega(fechaPrestamo);
+							
+		//assert
+		System.out.println(calcularFechaEntrega);
+		System.out.println(fechaEntrega);
+		Assert.assertEquals(calcularFechaEntrega, fechaEntrega);
+	}
 }

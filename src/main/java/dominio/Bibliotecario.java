@@ -1,6 +1,8 @@
 package dominio;
 
 import java.util.Date;
+import java.util.Locale;
+import java.util.Calendar;
 import dominio.excepcion.PrestamoException;
 import dominio.repositorio.RepositorioLibro;
 import dominio.repositorio.RepositorioPrestamo;
@@ -29,7 +31,7 @@ public class Bibliotecario {
 		}
 		Libro libro = repositorioLibro.obtenerPorIsbn(isbn);
 		if (esMayorATreinta(isbn)){
-			fechaEntrega = new Date();
+			fechaEntrega = calcularFechaEntrega(new Date());
 		}
 		Prestamo prestamo = new Prestamo(new Date(), libro, fechaEntrega, nombreUsuario);		
 		this.repositorioPrestamo.agregar(prestamo);
@@ -65,4 +67,28 @@ public class Bibliotecario {
 		
 		return false;
 	}
+	
+	public Date calcularFechaEntrega(Date fechaPrestamo){
+		Date fechaEntrega;
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(fechaPrestamo); 
+		 return fechaEntrega = sumarDias(calendar, 15); 
+	}
+	
+	public Date sumarDias(Calendar calendar, int dias){
+	    calendar.add(Calendar.DAY_OF_YEAR, dias);
+	    
+	    System.out.println(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US).toUpperCase());
+	    
+	    if(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US).toUpperCase() == "SUNDAY"){
+	    	calendar.add(Calendar.DAY_OF_YEAR, 1);
+	    }else if (calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US).toUpperCase() == "FRIDAY" || calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US).toUpperCase() == "SATURDAY"){
+	    	calendar.add(Calendar.DAY_OF_YEAR, 2);
+	    }else {
+	    	calendar.add(Calendar.DAY_OF_YEAR, 2);
+	    }
+
+	    return calendar.getTime(); 
+	}
+	
 }
